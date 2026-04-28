@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام متابعة الخطة الاتصالية - بشرى الضيافة - موسم حج 1447</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --gold:#B8975A;--gold-light:#D4B07A;--gold-pale:#FBF5E8;
+  --navy:#1A2744;--navy-mid:#243660;
+  --cream:#FAFAF7;--cream-dark:#F0EFE8;
+  --text:#1A1A1A;--text-muted:#6B6B6B;--text-light:#999;
+  --border:rgba(184,151,90,0.2);--border-strong:rgba(184,151,90,0.45);
+  --green:#2D7A4F;--green-bg:#E8F5EE;
+  --amber:#9A6200;--amber-bg:#FFF3DC;
+  --red:#B93A3A;--red-bg:#FDEAEA;
+  --neutral:#5A5A5A;--neutral-bg:#F0EFE8;
+  --radius:10px;--radius-sm:6px;
+  --shadow:0 2px 12px rgba(26,39,68,0.07);--shadow-md:0 4px 24px rgba(26,39,68,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Tajawal',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;direction:rtl}
+.hdr{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.18)}
+.hdr-brand{display:flex;align-items:center;gap:12px}
+.hdr-logo{width:36px;height:36px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:var(--navy);flex-shrink:0}
+.hdr-title{color:white;font-size:15px;font-weight:500}
+.hdr-sub{color:var(--gold-light);font-size:11px;margin-top:1px}
+.week-pick{display:flex;align-items:center;gap:8px}
+.week-pick label{color:var(--gold-light);font-size:12px;white-space:nowrap}
+.week-pick select{background:rgba(255,255,255,0.1);border:1px solid rgba(184,151,90,0.4);border-radius:var(--radius-sm);color:white;padding:6px 10px;font-size:12px;font-family:'Tajawal',sans-serif;cursor:pointer;outline:none}
+.week-pick select option{background:var(--navy);color:white}
+.main{max-width:1100px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+.tabs-bar{display:flex;gap:0;margin-bottom:1.5rem;background:var(--cream-dark);border-radius:var(--radius);padding:4px;border:1px solid var(--border)}
+.tab-btn{flex:1;padding:9px 6px;border:none;background:transparent;color:var(--text-muted);font-family:'Tajawal',sans-serif;font-size:12.5px;font-weight:400;cursor:pointer;border-radius:7px;transition:all 0.2s;text-align:center;white-space:nowrap}
+.tab-btn:hover{color:var(--text);background:rgba(184,151,90,0.1)}
+.tab-btn.active{background:var(--navy);color:white;font-weight:500;box-shadow:var(--shadow)}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:1.5rem}
+.kpi-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:var(--gold)}
+.kpi-lbl{font-size:11px;color:var(--text-muted);margin-bottom:5px}
+.kpi-val{font-size:26px;font-weight:700;line-height:1}
+.kpi-tgt{font-size:11px;color:var(--text-light);margin-top:4px}
+.c-green{color:var(--green)}.c-amber{color:var(--amber)}.c-red{color:var(--red)}
+.sec{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec::after{content:'';flex:1;height:1px;background:var(--border)}
+.tbl-wrap{overflow-x:auto;margin-bottom:1.25rem;border-radius:var(--radius);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:13px;background:white}
+thead tr{background:var(--navy)}
+thead th{padding:10px 12px;text-align:right;font-weight:500;font-size:12px;color:rgba(255,255,255,0.85)}
+tbody tr{border-bottom:1px solid var(--cream-dark);transition:background 0.15s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--gold-pale)}
+tbody td{padding:9px 12px;vertical-align:middle}
+.ni{width:62px;padding:5px 6px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--cream);color:var(--text);font-size:12px;font-family:'Tajawal',sans-serif;text-align:center;outline:none;transition:border-color 0.2s}
+.ni:focus{border-color:var(--gold);background:white}
+.ss{padding:4px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--cream);color:var(--text);font-size:11px;font-family:'Tajawal',sans-serif;cursor:pointer;outline:none}
+.pb-wrap{display:flex;align-items:center;gap:6px}
+.pb-bg{flex:1;height:6px;background:var(--cream-dark);border-radius:3px;min-width:50px}
+.pb-fill{height:6px;border-radius:3px;transition:width 0.4s ease}
+.pb-pct{font-size:11px;color:var(--text-light);min-width:30px}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.b-done{background:var(--green-bg);color:var(--green)}
+.b-prog{background:var(--amber-bg);color:var(--amber)}
+.b-pend{background:var(--neutral-bg);color:var(--neutral)}
+.b-del{background:var(--red-bg);color:var(--red)}
+.note-area{width:100%;padding:10px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);background:white;color:var(--text);font-size:13px;font-family:'Tajawal',sans-serif;resize:vertical;outline:none;transition:border-color 0.2s;direction:rtl}
+.note-area:focus{border-color:var(--gold)}
+.btn-row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.btn{padding:8px 18px;border-radius:var(--radius-sm);font-family:'Tajawal',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;border:1px solid var(--border-strong);background:white;color:var(--text)}
+.btn:hover{background:var(--cream-dark)}
+.btn-p{background:var(--navy);color:white;border-color:var(--navy)}
+.btn-p:hover{background:var(--navy-mid)}
+.ind-card{background:white;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;box-shadow:var(--shadow)}
+.ind-row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--cream-dark)}
+.ind-row:last-child{border-bottom:none}
+.ind-row:hover{background:var(--gold-pale)}
+.ind-lbl{flex:1;font-size:13px}
+.ind-tgt{font-size:11px;color:var(--text-light);margin-top:2px}
+/* REPORT */
+.report-card{background:white;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-top:6px}
+.report-header{background:var(--navy);padding:20px 28px 16px;color:white}
+.report-header h2{font-size:18px;font-weight:700;margin-bottom:4px}
+.report-header p{font-size:12px;color:var(--gold-light);opacity:0.9}
+.report-body{padding:20px 28px}
+.report-section{margin-bottom:20px}
+.report-section-title{font-size:13px;font-weight:700;color:var(--navy);border-right:3px solid var(--gold);padding-right:10px;margin-bottom:10px}
+.report-kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:14px}
+.rk{background:var(--cream);border-radius:var(--radius-sm);padding:10px 12px;border:1px solid var(--border)}
+.rk-lbl{font-size:11px;color:var(--text-muted);margin-bottom:3px}
+.rk-val{font-size:20px;font-weight:700}
+.rk-tgt{font-size:10px;color:var(--text-light);margin-top:2px}
+.task-report-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--cream-dark);font-size:13px}
+.task-report-row:last-child{border-bottom:none}
+.tr-icon{width:22px;text-align:center;font-size:14px;flex-shrink:0}
+.tr-name{flex:1}
+.tr-count{font-size:12px;color:var(--text-muted);white-space:nowrap}
+.delayed-list{background:var(--red-bg);border:1px solid rgba(185,58,58,0.2);border-radius:var(--radius-sm);padding:10px 14px;margin-top:10px}
+.delayed-list p{font-size:12px;font-weight:600;color:var(--red);margin-bottom:6px}
+.delayed-list li{font-size:12px;color:var(--red);margin-right:14px;margin-bottom:3px}
+.notes-box{background:var(--gold-pale);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;line-height:1.7;color:var(--text)}
+.report-footer{background:var(--cream-dark);padding:10px 28px;font-size:11px;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border)}
+/* SEASON */
+.chart-box{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+.chart-box canvas{max-height:200px}
+.phase-block{margin-bottom:1rem}
+.phase-lbl{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.5px;padding:5px 12px;background:var(--navy);border-radius:var(--radius-sm);display:inline-block;margin-bottom:7px}
+.swrow{display:grid;grid-template-columns:180px 1fr 55px 85px;gap:10px;align-items:center;padding:9px 14px;background:white;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;font-size:12px;transition:background 0.15s}
+.swrow:hover{background:var(--gold-pale)}
+/* SOCIAL */
+.sm-top{display:flex;align-items:center;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap}
+.sm-top label{font-size:13px;color:var(--text-muted)}
+.sm-top select{padding:7px 12px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:white;color:var(--text);font-size:13px;font-family:'Tajawal',sans-serif;outline:none;cursor:pointer}
+.plat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:1.5rem}
+.plat-card{background:white;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.plat-hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--cream-dark)}
+.plat-ico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;font-weight:700}
+.plat-name{font-size:14px;font-weight:600}
+.plat-rate{font-size:11px;color:var(--text-muted);margin-top:2px}
+.plat-fields{padding:12px 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pf-item{display:flex;flex-direction:column;gap:3px}
+.pf-lbl{font-size:11px;color:var(--text-muted)}
+.pf-inp{padding:6px 8px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--cream);color:var(--text);font-size:13px;font-family:'Tajawal',sans-serif;outline:none;text-align:center;transition:border-color 0.2s;width:100%}
+.pf-inp:focus{border-color:var(--gold);background:white}
+.plat-foot{padding:8px 16px 12px;border-top:1px solid var(--cream-dark);display:flex;gap:10px;align-items:center;font-size:12px}
+.sm-charts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+.sm-chart-box{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
+.sm-chart-box h3{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:12px}
+.sm-chart-box canvas{max-height:190px}
+.ic-x{background:#000;color:white}
+.ic-fb{background:#1877F2;color:white}
+.ic-ig{background:#E1306C;color:white}
+.ic-li{background:#0A66C2;color:white}
+.ic-yt{background:#FF0000;color:white}
+.ic-sn{background:#FFFC00;color:#1A1A1A}
+.ic-tt{background:#010101;color:white}
+.copy-text{position:absolute;left:-9999px;top:-9999px;font-size:1px;opacity:0}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--navy);color:white;padding:10px 24px;border-radius:30px;font-size:13px;font-weight:500;box-shadow:var(--shadow-md);transition:transform 0.3s ease;z-index:999;border:1px solid var(--gold)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:640px){
+  .hdr{padding:0 1rem}.main{padding:1rem}.week-pick{display:none}
+  .kpi-grid{grid-template-columns:1fr 1fr}.swrow{grid-template-columns:1fr 1fr}
+  .sm-charts{grid-template-columns:1fr}.plat-grid{grid-template-columns:1fr}
+  .tab-btn{font-size:11px;padding:8px 4px}
+}
+@media print{
+  .hdr,.tabs-bar,.btn-row,.sm-top,.btn{display:none!important}
+  .main{padding:0}.report-card{box-shadow:none;border:1px solid #ddd}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-logo">ب</div>
+    <div>
+      <div class="hdr-title">نظام متابعة الخطة الاتصالية</div>
+      <div class="hdr-sub">بشرى الضيافة — موسم حج 1447</div>
+    </div>
+  </div>
+  <div class="week-pick" id="weekPickerWrap">
+    <label>الأسبوع:</label>
+    <select id="weekSel" onchange="switchWeek()">
+      <option value="w3">شوال — الأسبوع الثالث (15-21)</option>
+      <option value="w4">شوال — الأسبوع الرابع (22-29)</option>
+      <option value="w5">ذو القعدة — الأسبوع الأول (1-7)</option>
+      <option value="w6">ذو القعدة — الأسبوع الثاني (8-14)</option>
+      <option value="w7">ذو القعدة — الأسبوع الثالث (15-21)</option>
+      <option value="w8">ذو القعدة — الأسبوع الرابع (22-28)</option>
+      <option value="w9">ذو الحجة — الأسبوع الأول (1-5)</option>
+      <option value="w10">ذو الحجة — المشاعر (6-13)</option>
+      <option value="w11">بعد المشاعر — الأسبوع الأول (14-20)</option>
+      <option value="w12">بعد المشاعر — الأسبوع الثاني (21-15 محرم)</option>
+    </select>
+  </div>
+</div>
+
+<div class="main">
+  <div class="tabs-bar">
+    <button class="tab-btn active"  onclick="showTab('input')">📥 إدخال البيانات</button>
+    <button class="tab-btn"         onclick="showTab('social')">📱 المنصات</button>
+    <button class="tab-btn"         onclick="showTab('indicators')">📊 المؤشرات</button>
+    <button class="tab-btn"         onclick="showTab('weekly')">📋 التقرير الأسبوعي</button>
+    <button class="tab-btn"         onclick="showTab('season')">🏆 تقرير الموسم</button>
+  </div>
+
+  <!-- INPUT -->
+  <div id="tab-input">
+    <div class="kpi-grid" id="kpiGrid"></div>
+    <div class="sec">مهام الأسبوع ونسبة الإنجاز</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th style="width:38%">المهمة</th>
+          <th style="width:13%;text-align:center">المستهدف</th>
+          <th style="width:13%;text-align:center">المنجز</th>
+          <th style="width:16%;text-align:center">الحالة</th>
+          <th style="width:20%">التقدم</th>
+        </tr></thead>
+        <tbody id="tasksBody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:10px">
+      <label style="display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px">ملاحظات الأسبوع:</label>
+      <textarea class="note-area" id="weekNotes" rows="3" placeholder="أضف ملاحظاتك هنا..."></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="saveData()">💾 حفظ البيانات</button>
+      <button class="btn btn-p" onclick="showTab('weekly')">توليد التقرير ←</button>
+    </div>
+  </div>
+
+  <!-- INDICATORS -->
+  <div id="tab-indicators" style="display:none">
+    <div class="sec">مؤشرات الأداء الرئيسية</div>
+    <div style="background:var(--gold-pale);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--amber)">
+      💡 المؤشرات المحسوبة تلقائياً (ذات الأيقونة ⚡) تُستخرج من بيانات المهام والمنصات. يمكنك تعديلها يدوياً إذا أردت.
+    </div>
+    <div class="ind-card">
+      <div class="ind-row"><div class="ind-lbl">نسبة إنجاز خطة الإنتاج <span id="auto_lbl_kpi1" style="font-size:10px;background:var(--green-bg);color:var(--green);padding:1px 6px;border-radius:10px;margin-right:4px">⚡ تلقائي</span><div class="ind-tgt">المستهدف: 90% — محسوب من نسبة إنجاز المهام</div></div><input type="number" class="ni" id="kpi1" placeholder="%" min="0" max="100" onchange="DB[CW]={...DB[CW]||{},kpi1:this.value,kpi1_manual:true};save()"></div>
+      <div class="ind-row"><div class="ind-lbl">معدل التفاعل على المنصات <span id="auto_lbl_kpi2" style="font-size:10px;background:var(--green-bg);color:var(--green);padding:1px 6px;border-radius:10px;margin-right:4px">⚡ تلقائي</span><div class="ind-tgt">المستهدف: +100% — محسوب من بيانات المنصات</div></div><input type="number" class="ni" id="kpi2" placeholder="%" min="0" onchange="DB[CW]={...DB[CW]||{},kpi2:this.value,kpi2_manual:true};save()"></div>
+      <div class="ind-row"><div class="ind-lbl">معدل نمو المتابعين <span id="auto_lbl_kpi3" style="font-size:10px;background:var(--green-bg);color:var(--green);padding:1px 6px;border-radius:10px;margin-right:4px">⚡ تلقائي</span><div class="ind-tgt">المستهدف: +100% — محسوب من خط الأساس في المنصات</div></div><input type="number" class="ni" id="kpi3" placeholder="%" min="0" onchange="DB[CW]={...DB[CW]||{},kpi3:this.value,kpi3_manual:true};save()"></div>
+      <div class="ind-row"><div class="ind-lbl">سرعة الاستجابة للأزمات <span style="font-size:10px;background:var(--amber-bg);color:var(--amber);padding:1px 6px;border-radius:10px;margin-right:4px">✍ يدوي</span><div class="ind-tgt">المستهدف: أقل من 60 دقيقة</div></div><input type="number" class="ni" id="kpi4" placeholder="دقيقة" min="0" onchange="if(!DB[CW])DB[CW]={};DB[CW].kpi4=this.value;save()"></div>
+      <div class="ind-row"><div class="ind-lbl">نسبة الالتزام بالجدول التحريري <span id="auto_lbl_kpi5" style="font-size:10px;background:var(--green-bg);color:var(--green);padding:1px 6px;border-radius:10px;margin-right:4px">⚡ تلقائي</span><div class="ind-tgt">المستهدف: 90% — محسوب من المهام المنجزة</div></div><input type="number" class="ni" id="kpi5" placeholder="%" min="0" max="100" onchange="DB[CW]={...DB[CW]||{},kpi5:this.value,kpi5_manual:true};save()"></div>
+      <div class="ind-row"><div class="ind-lbl">السلامة اللغوية <span style="font-size:10px;background:var(--amber-bg);color:var(--amber);padding:1px 6px;border-radius:10px;margin-right:4px">✍ يدوي</span><div class="ind-tgt">المستهدف: 100%</div></div><input type="number" class="ni" id="kpi6" placeholder="%" min="0" max="100" onchange="if(!DB[CW])DB[CW]={};DB[CW].kpi6=this.value;save()"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="['kpi1','kpi2','kpi3','kpi5'].forEach(k=>{if(DB[CW])delete DB[CW][k+'_manual'];});save();loadKPIs();toast('تم إعادة الحساب التلقائي ✓')">↺ إعادة الحساب التلقائي</button>
+      <button class="btn btn-p" onclick="showTab('weekly')">توليد التقرير ←</button>
+    </div>
+  </div>
+
+  <!-- SOCIAL -->
+  <div id="tab-social" style="display:none">
+    <div class="sm-top">
+      <label>الأسبوع:</label>
+      <select id="smWeekSel" onchange="renderSocial()">
+        <option value="w3">شوال — أسبوع 3</option><option value="w4">شوال — أسبوع 4</option>
+        <option value="w5">ذو القعدة — أسبوع 1</option><option value="w6">ذو القعدة — أسبوع 2</option>
+        <option value="w7">ذو القعدة — أسبوع 3</option><option value="w8">ذو القعدة — أسبوع 4</option>
+        <option value="w9">ذو الحجة — أسبوع 1</option><option value="w10">ذو الحجة — المشاعر</option>
+        <option value="w11">بعد المشاعر — أسبوع 1</option><option value="w12">بعد المشاعر — أسبوع 2</option>
+      </select>
+      <div style="flex:1"></div>
+      <button class="btn" onclick="saveSocial()">💾 حفظ</button>
+    </div>
+    <div class="kpi-grid" id="smTotals"></div>
+    <div class="sec">إدخال بيانات المنصات</div>
+    <div class="plat-grid" id="platformsGrid"></div>
+    <div class="sm-charts">
+      <div class="sm-chart-box"><h3>المتابعون حسب المنصة</h3><canvas id="smFollowersChart"></canvas></div>
+      <div class="sm-chart-box"><h3>التفاعل الكلي حسب المنصة</h3><canvas id="smEngagementChart"></canvas></div>
+    </div>
+    <div class="sec">نمو المتابعين عبر الموسم</div>
+    <div class="chart-box"><canvas id="smSeasonChart"></canvas></div>
+  </div>
+
+  <!-- WEEKLY REPORT -->
+  <div id="tab-weekly" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="sec" style="margin:0;flex:1">التقرير الأسبوعي</div>
+      <div class="btn-row" style="margin:0">
+        <button class="btn" onclick="copyWeeklyText()">📋 نسخ نصي</button>
+        <button class="btn btn-p" onclick="window.print()">🖨 طباعة / PDF</button>
+      </div>
+    </div>
+    <div class="report-card" id="weeklyReportCard">
+      <div class="report-header">
+        <h2>التقرير الأسبوعي — بشرى الضيافة</h2>
+        <p id="rh-sub"></p>
+      </div>
+      <div class="report-body">
+        <div class="report-section">
+          <div class="report-section-title">ملخص الأداء</div>
+          <div class="report-kpi-row" id="r-kpi-row"></div>
+        </div>
+        <div class="report-section">
+          <div class="report-section-title">تفاصيل المهام</div>
+          <div id="r-tasks"></div>
+          <div id="r-delayed"></div>
+        </div>
+        <div class="report-section" id="r-social-section" style="display:none">
+          <div class="report-section-title">أداء المنصات هذا الأسبوع</div>
+          <div id="r-social-data"></div>
+        </div>
+        <div class="report-section">
+          <div class="report-section-title">ملاحظات</div>
+          <div class="notes-box" id="r-notes">—</div>
+        </div>
+      </div>
+      <div class="report-footer">
+        <span>نظام متابعة الخطة الاتصالية لبشرى الضيافة</span>
+        <span id="r-date"></span>
+      </div>
+    </div>
+    <textarea class="copy-text" id="weeklyTextArea"></textarea>
+  </div>
+
+  <!-- SEASON -->
+  <div id="tab-season" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <div class="sec" style="margin:0;flex:1">تقرير الموسم الشامل</div>
+      <div class="btn-row" style="margin:0">
+        <button class="btn" onclick="copySeasonText()">📋 نسخ نصي</button>
+        <button class="btn btn-p" onclick="window.print()">🖨 طباعة / PDF</button>
+      </div>
+    </div>
+    <div class="kpi-grid" id="seasonKPIGrid"></div>
+    <div class="sec">التقدم الأسبوعي عبر الموسم</div>
+    <div class="chart-box"><canvas id="seasonChart"></canvas></div>
+    <div class="sec">تفصيل الأسابيع حسب المرحلة</div>
+    <div id="seasonPhases"></div>
+    <div class="sec" style="margin-top:1.5rem">التقرير الموسمي</div>
+    <div class="report-card" style="margin-top:8px">
+      <div class="report-header" style="background:linear-gradient(135deg,var(--navy),var(--navy-mid))">
+        <h2>التقرير الموسمي الشامل — بشرى الضيافة</h2>
+        <p>موسم الحج — الخطة التشغيلية الإعلامية</p>
+      </div>
+      <div class="report-body" id="sr-body"></div>
+      <div class="report-footer">
+        <span>نظام متابعة الخطة الاتصالية لبشرى الضيافة</span>
+        <span id="sr-date"></span>
+      </div>
+    </div>
+    <textarea class="copy-text" id="seasonTextArea"></textarea>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const WEEKS={
+  w3:{label:'شوال — أسبوع 3',short:'ش٣',phase:'الاستعداد',tasks:[{n:'تغطية الجاهزية',t:5},{n:'مقاطع فيديو',t:1},{n:'تصاميم أحداث',t:2},{n:'تصاميم إثرائية',t:5},{n:'نشر محتوى',t:7}]},
+  w4:{label:'شوال — أسبوع 4',short:'ش٤',phase:'الاستعداد',tasks:[{n:'تغطية الجاهزية',t:5},{n:'مقاطع فيديو',t:1},{n:'تصاميم أحداث',t:2},{n:'تصاميم إثرائية',t:5},{n:'نشر محتوى',t:8}]},
+  w5:{label:'ذو القعدة — أسبوع 1',short:'ق١',phase:'قبل المشاعر',tasks:[{n:'تغطية الجاهزية',t:2},{n:'مقاطع فيديو',t:1},{n:'تصاميم أحداث',t:11},{n:'النشرة الأسبوعية (1)',t:1},{n:'نشر محتوى',t:14},{n:'استقبال فوج بنجلاديش',t:1}]},
+  w6:{label:'ذو القعدة — أسبوع 2',short:'ق٢',phase:'قبل المشاعر',tasks:[{n:'تغطية الجاهزية',t:5},{n:'مقاطع فيديو',t:1},{n:'تصاميم أحداث',t:10},{n:'تصاميم إثرائية',t:8},{n:'تصاميم توعوية',t:20},{n:'النشرة (2)',t:1},{n:'نشر محتوى',t:14},{n:'الرصد اليومي',t:7},{n:'تشكيل فريق الاستجابة',t:1},{n:'استقبال فوج باكستان',t:1}]},
+  w7:{label:'ذو القعدة — أسبوع 3',short:'ق٣',phase:'قبل المشاعر',tasks:[{n:'تغطية الجاهزية',t:5},{n:'مقاطع فيديو',t:2},{n:'تصاميم أحداث',t:10},{n:'تصاميم إثرائية',t:8},{n:'تصاميم توعوية',t:20},{n:'النشرة (3)',t:1},{n:'نشر محتوى',t:14},{n:'الرصد اليومي',t:7},{n:'بنك الرسائل والتصعيد',t:1},{n:'استقبال فوج مصر',t:1},{n:'فيديو حياكم الله',t:1}]},
+  w8:{label:'ذو القعدة — أسبوع 4',short:'ق٤',phase:'قبل المشاعر',tasks:[{n:'تغطية الجاهزية',t:5},{n:'مقاطع فيديو',t:2},{n:'تصاميم أحداث',t:10},{n:'تصاميم إثرائية',t:8},{n:'تصاميم توعوية',t:25},{n:'النشرة (4)',t:1},{n:'نشر محتوى',t:14},{n:'الرصد اليومي',t:7},{n:'بروتوكول الاستجابة',t:1},{n:'استقبال فوج ليبيا',t:1},{n:'فيديو ألست بربكم',t:1}]},
+  w9:{label:'ذو الحجة — أسبوع 1',short:'ح١',phase:'قبل المشاعر',tasks:[{n:'تغطية الجاهزية',t:3},{n:'مقاطع فيديو',t:2},{n:'تصاميم أحداث',t:10},{n:'تصاميم إثرائية',t:8},{n:'تصاميم توعوية',t:25},{n:'النشرة (5)',t:1},{n:'نشر محتوى',t:14},{n:'فيديو حجوا مطمئنين',t:1}]},
+  w10:{label:'ذو الحجة — المشاعر',short:'مشاعر',phase:'أثناء المشاعر',tasks:[{n:'تغطية رحلة الحج في المشاعر',t:50},{n:'مقاطع فيديو',t:5},{n:'تصاميم أحداث',t:10},{n:'تصاميم إثرائية',t:8},{n:'تصاميم توعوية',t:40},{n:'النشرة (6)',t:1},{n:'نشر محتوى',t:25},{n:'تغطية جهود العاملين',t:5},{n:'فيديو أبطال الميدان',t:1}]},
+  w11:{label:'بعد المشاعر — أسبوع 1',short:'ب١',phase:'بعد المشاعر',tasks:[{n:'توديع حجاج بنجلاديش',t:1},{n:'توديع حجاج مصر',t:1},{n:'توديع حجاج باكستان',t:1},{n:'مقاطع فيديو',t:3},{n:'تصاميم أحداث',t:10},{n:'تصاميم توعوية',t:10},{n:'النشرة (7)',t:1},{n:'نشر محتوى',t:7},{n:'فيديو بشرى الموسم الأول',t:1}]},
+  w12:{label:'بعد المشاعر — أسبوع 2',short:'ب٢',phase:'بعد المشاعر',tasks:[{n:'توديع حجاج ليبيا',t:1},{n:'حفل تكريم البعثات',t:1},{n:'حفل تكريم العاملين',t:1},{n:'مقاطع فيديو',t:3},{n:'تصاميم أحداث',t:15},{n:'تصاميم إثرائية',t:2},{n:'تصاميم توعوية',t:10},{n:'النشرة 8-10',t:3},{n:'نشر محتوى',t:7},{n:'استخلاص الدروس والتحسين',t:1}]}
+};
+const PLATS=[
+  {id:'x',  name:'إكس (تويتر)', icon:'X',  cls:'ic-x', color:'#000000'},
+  {id:'fb', name:'فيس بوك',     icon:'f',  cls:'ic-fb',color:'#1877F2'},
+  {id:'ig', name:'إنستغرام',    icon:'IG', cls:'ic-ig',color:'#E1306C'},
+  {id:'li', name:'لينكد إن',    icon:'in', cls:'ic-li',color:'#0A66C2'},
+  {id:'yt', name:'يوتيوب',      icon:'YT', cls:'ic-yt',color:'#FF0000'},
+  {id:'sn', name:'سناب شات',    icon:'👻',cls:'ic-sn',color:'#FFCA28'},
+  {id:'tt', name:'تيك توك',     icon:'TT', cls:'ic-tt',color:'#010101'},
+];
+const SF=[
+  {id:'baseline',lbl:'خط الأساس (بداية الموسم)',once:true},
+  {id:'followers',lbl:'المتابعون الحاليون'},
+  {id:'reach',lbl:'الوصول'},{id:'likes',lbl:'الإعجابات'},
+  {id:'comments',lbl:'التعليقات'},{id:'shares',lbl:'المشاركات'},
+  {id:'posts',lbl:'المنشورات'},
+];
+// Domain classification for tasks
+const TASK_DOMAINS={
+  production: ['تغطية الجاهزية','تغطية رحلة الحج','تغطية جهود العاملين','تغطية استقبال','تغطية توديع','تغطية حفل'],
+  video:      ['مقاطع فيديو','فيديو'],
+  design:     ['تصاميم','النشرة'],
+  publish:    ['نشر محتوى','الرصد اليومي'],
+  crisis:     ['تشكيل فريق','بنك الرسائل','بروتوكول الاستجابة','تفعيل بروتوكول','استخلاص الدروس']
+};
+function getTaskDomain(name){
+  for(const[dom,keys] of Object.entries(TASK_DOMAINS)){
+    if(keys.some(k=>name.includes(k)))return dom;
+  }
+  return 'publish';
+}
+
+let DB=JSON.parse(localStorage.getItem('bushra_v2')||'{}');
+let CW='w3', smCW='w3';
+let seasonChartInst=null, smFC=null, smEC=null, smSC=null;
+
+function save(){localStorage.setItem('bushra_v2',JSON.stringify(DB));}
+function toast(msg){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2500);}
+function fmt(n){if(n>=1000000)return(n/1000000).toFixed(1)+'م';if(n>=1000)return(n/1000).toFixed(1)+'ألف';return String(n||0);}
+function weekPct(wk){
+  const w=WEEKS[wk],s=DB[wk]||{};
+  let tgt=0,act=0;
+  w.tasks.forEach((t,i)=>{tgt+=t.t;act+=Math.min(parseInt(s[i])||0,t.t);});
+  return tgt?Math.round((act/tgt)*100):0;
+}
+
+function switchWeek(){CW=document.getElementById('weekSel').value;renderTasks();loadKPIs();}
+
+function renderTasks(){
+  const wk=WEEKS[CW],s=DB[CW]||{};
+  document.getElementById('tasksBody').innerHTML=wk.tasks.map((task,i)=>{
+    const actual=s[i]!==undefined?s[i]:'';
+    const status=s['s'+i]||'pending';
+    const num=parseInt(actual)||0;
+    const pct=task.t>0?Math.min(100,Math.round((num/task.t)*100)):0;
+    const bc=pct>=90?'#2D7A4F':pct>=50?'#B8975A':'#B93A3A';
+    return `<tr>
+      <td style="font-size:12.5px">${task.n}</td>
+      <td style="text-align:center;font-weight:600">${task.t}</td>
+      <td style="text-align:center"><input type="number" min="0" value="${actual}" class="ni" oninput="ua(${i},this.value)"></td>
+      <td style="text-align:center"><select class="ss" onchange="us(${i},this.value)">
+        <option value="done"     ${status==='done'    ?'selected':''}>✓ منجز</option>
+        <option value="progress" ${status==='progress'?'selected':''}>↻ جارٍ</option>
+        <option value="pending"  ${status==='pending' ?'selected':''}>○ لم يبدأ</option>
+        <option value="delayed"  ${status==='delayed' ?'selected':''}>! متأخر</option>
+      </select></td>
+      <td><div class="pb-wrap">
+        <div class="pb-bg"><div class="pb-fill" id="pb${i}" style="width:${pct}%;background:${bc}"></div></div>
+        <span class="pb-pct" id="pp${i}">${pct}%</span>
+      </div></td>
+    </tr>`;
+  }).join('');
+  rebuildKPI();
+  document.getElementById('weekNotes').value=(DB[CW]||{}).notes||'';
+}
+
+function ua(i,val){
+  if(!DB[CW])DB[CW]={};
+  DB[CW][i]=val;
+  const t=WEEKS[CW].tasks[i];
+  const n=parseInt(val)||0;
+  const pct=t.t>0?Math.min(100,Math.round((n/t.t)*100)):0;
+  const bc=pct>=90?'#2D7A4F':pct>=50?'#B8975A':'#B93A3A';
+  const b=document.getElementById('pb'+i);const p=document.getElementById('pp'+i);
+  if(b){b.style.width=pct+'%';b.style.background=bc;}
+  if(p)p.textContent=pct+'%';
+  rebuildKPI();
+}
+function us(i,val){if(!DB[CW])DB[CW]={};DB[CW]['s'+i]=val;}
+
+function rebuildKPI(){
+  const wk=WEEKS[CW],s=DB[CW]||{};
+  let tgt=0,act=0,done=0,prog=0,del=0;
+  wk.tasks.forEach((t,i)=>{
+    tgt+=t.t;
+    act+=Math.min(parseInt(s[i])||0,t.t);
+    const st=s['s'+i]||'pending';
+    if(st==='done')done++;else if(st==='progress')prog++;else if(st==='delayed')del++;
+  });
+  const pct=tgt?Math.round((act/tgt)*100):0;
+  const pc=pct>=90?'c-green':pct>=60?'c-amber':'c-red';
+  document.getElementById('kpiGrid').innerHTML=`
+    <div class="kpi-card"><div class="kpi-lbl">الإنجاز الكلي</div><div class="kpi-val ${pc}">${pct}%</div><div class="kpi-tgt">المستهدف: 90%</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">مهام منجزة</div><div class="kpi-val c-green">${done}</div><div class="kpi-tgt">من ${wk.tasks.length}</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">قيد التنفيذ</div><div class="kpi-val c-amber">${prog}</div><div class="kpi-tgt">مهمة جارية</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">متأخرة</div><div class="kpi-val c-red">${del}</div><div class="kpi-tgt">تحتاج متابعة</div></div>`;
+}
+
+function saveKPIs(){
+  if(!DB[CW])DB[CW]={};
+  ['kpi1','kpi2','kpi3','kpi4','kpi5','kpi6'].forEach(k=>{DB[CW][k]=document.getElementById(k).value;});
+  save();
+}
+function loadKPIs(){
+  const s=DB[CW]||{};
+  // Auto-calculate kpi1: production completion %
+  const wk=WEEKS[CW];
+  let tgt=0,act=0;
+  wk.tasks.forEach((t,i)=>{tgt+=t.t;act+=Math.min(parseInt(s[i])||0,t.t);});
+  const autoPct=tgt?Math.round((act/tgt)*100):0;
+  // Auto kpi2: total engagement from social
+  const sd=DB['sm_'+CW]||{};
+  let totE=0,totR=0,totF=0;
+  PLATS.forEach(p=>{
+    const d=sd[p.id]||{};
+    totE+=(parseInt(d.likes)||0)+(parseInt(d.comments)||0)+(parseInt(d.shares)||0);
+    totR+=parseInt(d.reach)||0;
+    totF+=parseInt(d.followers)||0;
+  });
+  const autoEngRate=totR>0?Math.round((totE/totR)*100):0;
+  // Auto kpi3: avg followers growth
+  let growSum=0,growCount=0;
+  PLATS.forEach(p=>{
+    const d=sd[p.id]||{};
+    const bl=getBaseline(p.id);
+    const cur=parseInt(d.followers)||0;
+    if(bl>0&&cur>0){growSum+=((cur-bl)/bl*100);growCount++;}
+  });
+  const autoGrow=growCount?Math.round(growSum/growCount):0;
+  // Auto kpi5: schedule compliance (done tasks / total tasks * 100)
+  let doneCnt=0;
+  wk.tasks.forEach((_,i)=>{if((s['s'+i]||'pending')==='done')doneCnt++;});
+  const autoSchedule=wk.tasks.length?Math.round((doneCnt/wk.tasks.length)*100):0;
+  // Set auto values only if field not manually overridden
+  const el1=document.getElementById('kpi1');if(el1&&!s.kpi1_manual)el1.value=autoPct||s.kpi1||'';
+  const el2=document.getElementById('kpi2');if(el2&&!s.kpi2_manual)el2.value=autoEngRate||s.kpi2||'';
+  const el3=document.getElementById('kpi3');if(el3&&!s.kpi3_manual)el3.value=autoGrow||s.kpi3||'';
+  const el5=document.getElementById('kpi5');if(el5&&!s.kpi5_manual)el5.value=autoSchedule||s.kpi5||'';
+  // Always load manual fields
+  const el4=document.getElementById('kpi4');if(el4)el4.value=s.kpi4||'';
+  const el6=document.getElementById('kpi6');if(el6)el6.value=s.kpi6||'';
+  // Update auto labels
+  ['kpi1','kpi2','kpi3','kpi5'].forEach(k=>{
+    const lbl=document.getElementById('auto_lbl_'+k);
+    if(lbl)lbl.style.display=s[k+'_manual']?'none':'inline';
+  });
+}
+function saveData(){
+  if(!DB[CW])DB[CW]={};
+  DB[CW].notes=document.getElementById('weekNotes').value;
+  save();toast('تم حفظ البيانات ✓');
+}
+
+/* ── SOCIAL ── */
+function getBaseline(pid){
+  // baseline stored globally per platform, not per week
+  return parseInt((DB['sm_baseline']||{})[pid])||0;
+}
+function renderSocial(){
+  smCW=document.getElementById('smWeekSel').value;
+  const s=DB['sm_'+smCW]||{};
+  let totF=0,totR=0,totE=0,totP=0,totGrow=0,platWithGrow=0;
+  PLATS.forEach(p=>{
+    const d=s[p.id]||{};
+    const f=parseInt(d.followers)||0;
+    const bl=getBaseline(p.id);
+    totF+=f;totR+=parseInt(d.reach)||0;
+    totE+=(parseInt(d.likes)||0)+(parseInt(d.comments)||0)+(parseInt(d.shares)||0);
+    totP+=parseInt(d.posts)||0;
+    if(bl>0&&f>0){totGrow+=((f-bl)/bl*100);platWithGrow++;}
+  });
+  const avgGrow=platWithGrow?Math.round(totGrow/platWithGrow):0;
+  const gc=avgGrow>=100?'c-green':avgGrow>=50?'c-amber':'c-red';
+  document.getElementById('smTotals').innerHTML=`
+    <div class="kpi-card"><div class="kpi-lbl">إجمالي المتابعين</div><div class="kpi-val c-green">${fmt(totF)}</div><div class="kpi-tgt">جميع المنصات</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">متوسط نمو المتابعين</div><div class="kpi-val ${gc}">${avgGrow>0?'+':''}${avgGrow}%</div><div class="kpi-tgt">المستهدف: +100%</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">إجمالي التفاعل</div><div class="kpi-val" style="color:#185FA5">${fmt(totE)}</div><div class="kpi-tgt">إعجاب + تعليق + مشاركة</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">إجمالي المنشورات</div><div class="kpi-val c-green">${totP}</div><div class="kpi-tgt">هذا الأسبوع</div></div>`;
+  document.getElementById('platformsGrid').innerHTML=PLATS.map(p=>{
+    const d=s[p.id]||{};
+    const eng=(parseInt(d.likes)||0)+(parseInt(d.comments)||0)+(parseInt(d.shares)||0);
+    const reach=Math.max(parseInt(d.reach)||0,1);
+    const rate=((eng/reach)*100).toFixed(1);
+    const bl=getBaseline(p.id);
+    const curF=parseInt(d.followers)||0;
+    const grow=bl>0&&curF>0?((curF-bl)/bl*100).toFixed(1):null;
+    const growColor=grow>=100?'var(--green)':grow>=50?'var(--amber)':'var(--red)';
+    // baseline field stored globally
+    const blVal=(DB['sm_baseline']||{})[p.id]||'';
+    return `<div class="plat-card">
+      <div class="plat-hdr">
+        <div class="plat-ico ${p.cls}">${p.icon}</div>
+        <div style="flex:1"><div class="plat-name">${p.name}</div><div class="plat-rate" id="pr_${p.id}">معدل التفاعل: <b>${rate}%</b>${grow!==null?` &nbsp;|&nbsp; النمو: <b style="color:${growColor}">${grow>0?'+':''}${grow}%</b>`:''}</div></div>
+        ${grow!==null?`<div style="font-size:11px;font-weight:700;color:${growColor};background:${grow>=100?'var(--green-bg)':grow>=50?'var(--amber-bg)':'var(--red-bg)'};padding:3px 8px;border-radius:12px">${grow>0?'+':''}${grow}%</div>`:''}
+      </div>
+      <div style="padding:8px 16px;background:var(--gold-pale);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+        <div style="font-size:12px;color:var(--text-muted);flex:1">📌 خط الأساس (بداية الموسم)</div>
+        <input type="number" min="0" class="pf-inp" style="width:90px" id="sm_bl_${p.id}" value="${blVal}" placeholder="0"
+          oninput="ubl('${p.id}',this.value)">
+      </div>
+      <div class="plat-fields">${SF.filter(f=>f.id!=='baseline').map(f=>`
+        <div class="pf-item">
+          <div class="pf-lbl">${f.lbl}</div>
+          <input type="number" min="0" class="pf-inp" id="sm_${p.id}_${f.id}" value="${d[f.id]||''}" placeholder="0"
+            oninput="usf('${p.id}','${f.id}',this.value)">
+        </div>`).join('')}
+      </div>
+      <div class="plat-foot">
+        <span>التفاعل الكلي: <b id="pe_${p.id}">${fmt(eng)}</b></span>
+        <span style="margin-right:auto;color:var(--text-light)">وصول: ${fmt(parseInt(d.reach)||0)}</span>
+      </div>
+    </div>`;
+  }).join('');
+  buildSocialCharts(s);
+}
+function ubl(pid,val){
+  if(!DB['sm_baseline'])DB['sm_baseline']={};
+  DB['sm_baseline'][pid]=val;
+  // refresh growth display without full re-render
+  const smWk=DB['sm_'+smCW]||{};
+  const d=smWk[pid]||{};
+  const bl=parseInt(val)||0;
+  const curF=parseInt(d.followers)||0;
+  const eng=(parseInt(d.likes)||0)+(parseInt(d.comments)||0)+(parseInt(d.shares)||0);
+  const reach=Math.max(parseInt(d.reach)||0,1);
+  const rate=((eng/reach)*100).toFixed(1);
+  const grow=bl>0&&curF>0?((curF-bl)/bl*100).toFixed(1):null;
+  const growColor=grow>=100?'var(--green)':grow>=50?'var(--amber)':'var(--red)';
+  const el=document.getElementById('pr_'+pid);
+  if(el)el.innerHTML=`معدل التفاعل: <b>${rate}%</b>${grow!==null?` &nbsp;|&nbsp; النمو: <b style="color:${growColor}">${grow>0?'+':''}${grow}%</b>`:''}`;
+}
+function usf(pid,fid,val){
+  const key='sm_'+smCW;
+  if(!DB[key])DB[key]={};
+  if(!DB[key][pid])DB[key][pid]={};
+  DB[key][pid][fid]=val;
+  const d=DB[key][pid];
+  const eng=(parseInt(d.likes)||0)+(parseInt(d.comments)||0)+(parseInt(d.shares)||0);
+  const reach=Math.max(parseInt(d.reach)||0,1);
+  const rate=((eng/reach)*100).toFixed(1);
+  const re=document.getElementById('pr_'+pid);if(re)re.innerHTML=`معدل التفاعل: <b>${rate}%</b>`;
+  const pe=document.getElementById('pe_'+pid);if(pe)pe.textContent=fmt(eng);
+}
+function saveSocial(){save();toast('تم حفظ بيانات المنصات ✓');}
+function buildSocialCharts(s){
+  const labels=PLATS.map(p=>p.name);
+  const colors=PLATS.map(p=>p.color);
+  const followers=PLATS.map(p=>parseInt((s[p.id]||{}).followers)||0);
+  const engagement=PLATS.map(p=>{const d=s[p.id]||{};return(parseInt(d.likes)||0)+(parseInt(d.comments)||0)+(parseInt(d.shares)||0);});
+  if(smFC){smFC.destroy();smFC=null;}
+  smFC=new Chart(document.getElementById('smFollowersChart'),{type:'doughnut',data:{labels,datasets:[{data:followers,backgroundColor:colors,borderWidth:2,borderColor:'white'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'right',labels:{font:{family:'Tajawal',size:10},boxWidth:10}}}}});
+  if(smEC){smEC.destroy();smEC=null;}
+  smEC=new Chart(document.getElementById('smEngagementChart'),{type:'bar',data:{labels,datasets:[{label:'التفاعل',data:engagement,backgroundColor:colors,borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}},scales:{y:{ticks:{font:{size:10}},grid:{color:'rgba(0,0,0,0.05)'}},x:{ticks:{font:{size:10}},grid:{display:false}}}}});
+  const wKeys2=Object.keys(WEEKS);
+  const sLabels=wKeys2.map(w=>WEEKS[w].short);
+  const ds=PLATS.map(p=>({label:p.name,data:wKeys2.map(wk=>parseInt((DB['sm_'+wk]||{})[p.id]?.followers||0)),borderColor:p.color,backgroundColor:p.color+'33',borderWidth:2,pointRadius:3,tension:0.3,fill:false}));
+  // Add baseline as dashed dataset per platform
+  const bsDs=PLATS.map(p=>{
+    const bl=getBaseline(p.id);
+    return bl?{label:p.name+' (خط الأساس)',data:Array(wKeys2.length).fill(bl),borderColor:p.color,borderDash:[4,4],borderWidth:1,pointRadius:0,tension:0,fill:false}:null;
+  }).filter(Boolean);
+  if(smSC){smSC.destroy();smSC=null;}
+  smSC=new Chart(document.getElementById('smSeasonChart'),{type:'line',data:{labels:sLabels,datasets:[...ds,...bsDs]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'top',labels:{font:{family:'Tajawal',size:10},boxWidth:10,filter:item=>!item.text.includes('خط الأساس')||bsDs.length<=3}}},scales:{y:{ticks:{font:{size:10}},grid:{color:'rgba(0,0,0,0.05)'}},x:{ticks:{font:{size:10}},grid:{display:false}}}}});
+}
+
+/* ── SHOW TAB ── */
+function showTab(tab){
+  ['input','social','indicators','weekly','season'].forEach(t=>{document.getElementById('tab-'+t).style.display=t===tab?'block':'none';});
+  document.querySelectorAll('.tab-btn').forEach((el,i)=>{el.classList.toggle('active',['input','social','indicators','weekly','season'][i]===tab);});
+  document.getElementById('weekPickerWrap').style.display=(tab==='season'||tab==='social')?'none':'flex';
+  if(tab==='weekly')buildWeeklyReport();
+  if(tab==='season')renderSeasonTab();
+  if(tab==='social')renderSocial();
+  if(tab==='indicators')loadKPIs();
+}
+
+/* ── WEEKLY REPORT ── */
+function buildWeeklyReport(){
+  const wk=WEEKS[CW],s=DB[CW]||{};
+  let tgt=0,act=0,done=0,delayed=[];
+  const rows=wk.tasks.map((task,i)=>{
+    tgt+=task.t;
+    const a=parseInt(s[i])||0;
+    act+=Math.min(a,task.t);
+    const st=s['s'+i]||'pending';
+    const pct=task.t?Math.min(100,Math.round((a/task.t)*100)):0;
+    if(st==='done')done++;
+    if(st==='delayed')delayed.push(task.n);
+    const icon=st==='done'?'✅':st==='progress'?'🔄':st==='delayed'?'⚠️':'⬜';
+    const bc2=st==='done'?'b-done':st==='progress'?'b-prog':st==='delayed'?'b-del':'b-pend';
+    const bl=st==='done'?'منجز':st==='progress'?'جارٍ':st==='delayed'?'متأخر':'لم يبدأ';
+    const bc=pct>=90?'#2D7A4F':pct>=50?'#B8975A':'#B93A3A';
+    return `<div class="task-report-row">
+      <span class="tr-icon">${icon}</span>
+      <span class="tr-name">${task.n}</span>
+      <span class="tr-count">${a} / ${task.t}</span>
+      <div class="pb-bg" style="width:80px"><div class="pb-fill" style="width:${pct}%;background:${bc}"></div></div>
+      <span class="pb-pct">${pct}%</span>
+      <span class="badge ${bc2}" style="flex-shrink:0">${bl}</span>
+    </div>`;
+  });
+  const pct=tgt?Math.round((act/tgt)*100):0;
+  const pc=pct>=90?'c-green':pct>=60?'c-amber':'c-red';
+  const today=new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'});
+  const kv=k=>{const v=(s[k]||'').trim();return v?v+'%':' — ';};
+  document.getElementById('rh-sub').textContent=`الفترة: ${wk.label}  |  التاريخ: ${today}`;
+  document.getElementById('r-date').textContent=today;
+  document.getElementById('r-kpi-row').innerHTML=`
+    <div class="rk"><div class="rk-lbl">الإنجاز الكلي</div><div class="rk-val ${pc}">${pct}%</div><div class="rk-tgt">المستهدف: 90%</div></div>
+    <div class="rk"><div class="rk-lbl">مهام منجزة</div><div class="rk-val c-green">${done}</div><div class="rk-tgt">من ${wk.tasks.length}</div></div>
+    <div class="rk"><div class="rk-lbl">إنجاز الإنتاج</div><div class="rk-val" style="font-size:18px">${kv('kpi1')}</div><div class="rk-tgt">المستهدف: 90%</div></div>
+    <div class="rk"><div class="rk-lbl">التفاعل</div><div class="rk-val" style="font-size:18px">${kv('kpi2')}</div><div class="rk-tgt">المستهدف: +100%</div></div>
+    <div class="rk"><div class="rk-lbl">نمو المتابعين</div><div class="rk-val" style="font-size:18px">${kv('kpi3')}</div><div class="rk-tgt">المستهدف: +100%</div></div>
+    <div class="rk"><div class="rk-lbl">الالتزام التحريري</div><div class="rk-val" style="font-size:18px">${kv('kpi5')}</div><div class="rk-tgt">المستهدف: 90%</div></div>`;
+  document.getElementById('r-tasks').innerHTML=rows.join('');
+  document.getElementById('r-delayed').innerHTML=delayed.length?`<div class="delayed-list"><p>مهام تحتاج متابعة عاجلة:</p><ul>${delayed.map(d=>`<li>${d}</li>`).join('')}</ul></div>`:'';
+  /* social in report */
+  const sd=DB['sm_'+CW]||{};
+  const hasSM=PLATS.some(p=>Object.keys(sd[p.id]||{}).some(k=>sd[p.id][k]));
+  const sSection=document.getElementById('r-social-section');
+  if(hasSM){
+    sSection.style.display='block';
+    let sh='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px">';
+    PLATS.forEach(p=>{
+      const d=sd[p.id]||{};
+      if(!Object.values(d).some(v=>v))return;
+      const eng=(parseInt(d.likes)||0)+(parseInt(d.comments)||0)+(parseInt(d.shares)||0);
+      sh+=`<div class="rk"><div class="rk-lbl" style="display:flex;align-items:center;gap:4px"><span class="plat-ico ${p.cls}" style="width:16px;height:16px;border-radius:3px;font-size:8px">${p.icon}</span>${p.name}</div>
+        <div style="font-size:12px;margin-top:4px;line-height:1.8">
+          ${d.followers?`<div>متابعون: <b>${fmt(parseInt(d.followers))}</b></div>`:''}
+          ${d.reach?`<div>وصول: <b>${fmt(parseInt(d.reach))}</b></div>`:''}
+          ${eng?`<div>تفاعل: <b>${fmt(eng)}</b></div>`:''}
+          ${d.posts?`<div>منشورات: <b>${d.posts}</b></div>`:''}
+        </div></div>`;
+    });
+    sh+='</div>';
+    document.getElementById('r-social-data').innerHTML=sh;
+  } else sSection.style.display='none';
+  document.getElementById('r-notes').textContent=s.notes||'لا توجد ملاحظات';
+  /* plain text */
+  let lines='';
+  wk.tasks.forEach((task,i)=>{
+    const a=parseInt(s[i])||0;const st=s['s'+i]||'pending';
+    const em=st==='done'?'✅':st==='progress'?'🔄':st==='delayed'?'⚠️':'⬜';
+    lines+=`${em} ${task.n}: ${a} من ${task.t}\n`;
+  });
+  document.getElementById('weeklyTextArea').value=
+`📋 التقرير الأسبوعي — بشرى الضيافة\nالفترة: ${wk.label}\nالتاريخ: ${today}\n${'━'.repeat(26)}\n\n📊 ملخص الأداء:\n• الإنجاز الكلي: ${pct}%\n• المهام المنجزة: ${done} من ${wk.tasks.length}\n• إنجاز خطة الإنتاج: ${(s.kpi1||'---')}%\n• التفاعل على المنصات: ${(s.kpi2||'---')}%\n• الالتزام التحريري: ${(s.kpi5||'---')}%\n\n📌 تفاصيل المهام:\n${lines}${delayed.length?`\n⚠️ مهام متأخرة:\n${delayed.map(d=>'• '+d).join('\n')}\n`:''}\n📝 ملاحظات:\n${s.notes||'لا توجد ملاحظات'}\n\n${'━'.repeat(26)}\nنظام متابعة الخطة الاتصالية لبشرى الضيافة`;
+}
+
+function copyWeeklyText(){
+  const el=document.getElementById('weeklyTextArea');
+  el.style.position='fixed';el.style.left='0';el.style.top='0';el.select();document.execCommand('copy');
+  el.style.position='absolute';el.style.left='-9999px';toast('تم نسخ التقرير ✓');
+}
+
+/* ── SEASON ── */
+function renderSeasonTab(){
+  const wKeys=Object.keys(WEEKS);
+  let tTgt=0,tAct=0,tDone=0,tDel=0,doneW=0;
+  const labels=[],pcts=[];
+  wKeys.forEach(wk=>{
+    const w=WEEKS[wk],s=DB[wk]||{};
+    let wt=0,wa=0,d=0,dl=0;
+    w.tasks.forEach((t,i)=>{wt+=t.t;wa+=Math.min(parseInt(s[i])||0,t.t);const st=s['s'+i]||'pending';if(st==='done')d++;if(st==='delayed')dl++;});
+    tTgt+=wt;tAct+=wa;tDone+=d;tDel+=dl;
+    const p=wt?Math.round((wa/wt)*100):0;
+    labels.push(w.short);pcts.push(p);if(p>=90)doneW++;
+  });
+  const sPct=tTgt?Math.round((tAct/tTgt)*100):0;
+  const pc=sPct>=90?'c-green':sPct>=60?'c-amber':'c-red';
+  document.getElementById('seasonKPIGrid').innerHTML=`
+    <div class="kpi-card"><div class="kpi-lbl">إنجاز الموسم الكلي</div><div class="kpi-val ${pc}">${sPct}%</div><div class="kpi-tgt">المستهدف: 90%</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">أسابيع بلغت 90%+</div><div class="kpi-val c-green">${doneW}</div><div class="kpi-tgt">من 10 أسابيع</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">إجمالي مهام منجزة</div><div class="kpi-val c-green">${tDone}</div><div class="kpi-tgt">عبر الموسم</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">مهام متأخرة</div><div class="kpi-val c-red">${tDel}</div><div class="kpi-tgt">تحتاج مراجعة</div></div>`;
+  if(seasonChartInst){seasonChartInst.destroy();seasonChartInst=null;}
+  seasonChartInst=new Chart(document.getElementById('seasonChart'),{type:'bar',data:{labels,datasets:[
+    {label:'نسبة الإنجاز %',data:pcts,backgroundColor:pcts.map(p=>p>=90?'#2D7A4F':p>=60?'#B8975A':'#B93A3A'),borderRadius:5,borderSkipped:false},
+    {type:'line',label:'الهدف 90%',data:Array(pcts.length).fill(90),borderColor:'#1A2744',borderDash:[5,5],borderWidth:1.5,pointRadius:0,tension:0}
+  ]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'top',labels:{font:{family:'Tajawal',size:11},boxWidth:12}},tooltip:{callbacks:{label:c=>`${c.parsed.y}%`}}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.05)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}});
+  const phases=['الاستعداد','قبل المشاعر','أثناء المشاعر','بعد المشاعر'];
+  let html='';
+  phases.forEach(ph=>{
+    const pw=wKeys.filter(wk=>WEEKS[wk].phase===ph);if(!pw.length)return;
+    html+=`<div class="phase-block"><div class="phase-lbl">${ph}</div>`;
+    pw.forEach(wk=>{
+      const p=weekPct(wk);const bc=p>=90?'#2D7A4F':p>=60?'#B8975A':'#B93A3A';
+      const s=DB[wk]||{};const hasD=WEEKS[wk].tasks.some((_,i)=>s[i]&&s[i]!=='');
+      const bc2=hasD?(p>=90?'b-done':p>=60?'b-prog':'b-del'):'b-pend';
+      const bl=hasD?(p>=90?'ممتاز':p>=60?'جيد':'يحتاج جهداً'):'لم يُدخل';
+      html+=`<div class="swrow"><span style="font-weight:500">${WEEKS[wk].label}</span><div class="pb-bg" style="height:7px"><div class="pb-fill" style="height:7px;width:${p}%;background:${bc}"></div></div><span style="font-weight:600;color:${bc}">${p}%</span><span class="badge ${bc2}">${bl}</span></div>`;
+    });
+    html+='</div>';
+  });
+  document.getElementById('seasonPhases').innerHTML=html;
+  const best=wKeys[pcts.indexOf(Math.max(...pcts))];
+  const filled=pcts.filter(p=>p>0);
+  const worstI=filled.length?pcts.indexOf(Math.min(...filled)):-1;
+  const worst=worstI>=0?wKeys[worstI]:null;
+  const phAvgs=phases.map(ph=>{const pw=wKeys.filter(w=>WEEKS[w].phase===ph);const avg=pw.reduce((s,w)=>s+weekPct(w),0)/(pw.length||1);return{ph,avg:Math.round(avg)};});
+  // Domain performance
+  const domainDefs={
+    production:{lbl:'الإنتاج والتغطيات',icon:'🎬'},
+    video:{lbl:'الفيديوهات الإبداعية',icon:'🎥'},
+    design:{lbl:'التصاميم والنشرات',icon:'🎨'},
+    publish:{lbl:'النشر والترويج الرقمي',icon:'📢'},
+    crisis:{lbl:'إدارة الأزمات الإعلامية',icon:'🛡️'}
+  };
+  const domainStats={};
+  Object.keys(domainDefs).forEach(d=>{domainStats[d]={tgt:0,act:0};});
+  wKeys.forEach(wk=>{
+    const w=WEEKS[wk],s=DB[wk]||{};
+    w.tasks.forEach((t,i)=>{
+      const dom=getTaskDomain(t.n);
+      domainStats[dom].tgt+=t.t;
+      domainStats[dom].act+=Math.min(parseInt(s[i])||0,t.t);
+    });
+  });
+  const domHTML=`<div class="report-section"><div class="report-section-title">الأداء حسب المجال</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px">
+      ${Object.entries(domainDefs).map(([id,{lbl,icon}])=>{
+        const {tgt,act}=domainStats[id];
+        const pct=tgt?Math.round((act/tgt)*100):0;
+        const cc=pct>=90?'c-green':pct>=60?'c-amber':'c-red';
+        return `<div class="rk">
+          <div class="rk-lbl">${icon} ${lbl}</div>
+          <div class="rk-val ${cc}">${pct}%</div>
+          <div class="rk-tgt">${act} من ${tgt} وحدة</div>
+        </div>`;
+      }).join('')}
+    </div></div>`;
+  let smHTML='';
+  const hasSM=PLATS.some(p=>wKeys.some(wk=>Object.keys((DB['sm_'+wk]||{})[p.id]||{}).length>0));
+  if(hasSM){
+    smHTML=`<div class="report-section"><div class="report-section-title">أداء المنصات عبر الموسم (آخر بيانات)</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px">`;
+    PLATS.forEach(p=>{
+      const lastWk=wKeys.slice().reverse().find(wk=>(DB['sm_'+wk]||{})[p.id]?.followers);
+      if(!lastWk)return;
+      const d=(DB['sm_'+lastWk]||{})[p.id]||{};
+      const eng=(parseInt(d.likes)||0)+(parseInt(d.comments)||0)+(parseInt(d.shares)||0);
+      smHTML+=`<div class="rk"><div class="rk-lbl" style="display:flex;align-items:center;gap:4px"><span class="plat-ico ${p.cls}" style="width:16px;height:16px;border-radius:3px;font-size:8px">${p.icon}</span>${p.name}</div><div style="font-size:12px;margin-top:4px;line-height:1.8">${d.followers?`<div>متابعون: <b>${fmt(parseInt(d.followers))}</b></div>`:''}${eng?`<div>تفاعل: <b>${fmt(eng)}</b></div>`:''}</div></div>`;
+    });
+    smHTML+='</div></div>';
+  }
+  const today=new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('sr-date').textContent=today;
+  document.getElementById('sr-body').innerHTML=`
+    <div class="report-section"><div class="report-section-title">الملخص التنفيذي</div>
+      <div class="report-kpi-row">
+        <div class="rk"><div class="rk-lbl">إنجاز الموسم</div><div class="rk-val ${pc}">${sPct}%</div></div>
+        <div class="rk"><div class="rk-lbl">أسابيع 90%+</div><div class="rk-val c-green">${doneW} / 10</div></div>
+        <div class="rk"><div class="rk-lbl">مهام منجزة</div><div class="rk-val c-green">${tDone}</div></div>
+        <div class="rk"><div class="rk-lbl">مهام متأخرة</div><div class="rk-val c-red">${tDel}</div></div>
+      </div></div>
+    <div class="report-section"><div class="report-section-title">أبرز الأسابيع</div>
+      <div style="font-size:13px;line-height:2">
+        <div>أفضل أسبوع: <b>${WEEKS[best]?.label||'—'}</b> &nbsp; <b style="color:var(--green)">${Math.max(...pcts)}%</b></div>
+        ${worst?`<div>الأسبوع الأضعف: <b>${WEEKS[worst]?.label||'—'}</b> &nbsp; <b style="color:var(--red)">${Math.min(...filled)}%</b></div>`:''}
+      </div></div>
+    <div class="report-section"><div class="report-section-title">الأداء حسب المراحل</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px">
+        ${phAvgs.map(({ph,avg})=>`<div class="rk"><div class="rk-lbl">${ph}</div><div class="rk-val ${avg>=90?'c-green':avg>=60?'c-amber':'c-red'}">${avg}%</div><div class="rk-tgt">متوسط</div></div>`).join('')}
+      </div></div>
+    ${domHTML}
+    ${smHTML}`;
+  const txtLines=phases.map(ph=>{const pw=wKeys.filter(w=>WEEKS[w].phase===ph);const avg=pw.reduce((s,w)=>s+weekPct(w),0)/(pw.length||1);return`• ${ph}: ${Math.round(avg)}% متوسط`;}).join('\n');
+  document.getElementById('seasonTextArea').value=`📊 التقرير الموسمي الشامل — بشرى الضيافة\nموسم الحج — الخطة التشغيلية الإعلامية\nالتاريخ: ${today}\n${'━'.repeat(28)}\n\n📌 الملخص التنفيذي:\n• إنجاز الموسم الكلي: ${sPct}%\n• أسابيع بلغت الهدف: ${doneW} من 10\n• إجمالي المهام المنجزة: ${tDone}\n• مهام تحتاج مراجعة: ${tDel}\n\n📈 أبرز الأسابيع:\n• أفضل أسبوع: ${WEEKS[best]?.label||'—'} (${Math.max(...pcts)}%)\n${worst?`• الأضعف: ${WEEKS[worst]?.label||'—'} (${Math.min(...filled)}%)\n`:''}\n🏷️ الأداء حسب المراحل:\n${txtLines}\n\n${'━'.repeat(28)}\nنظام متابعة الخطة الاتصالية لبشرى الضيافة — التقرير الموسمي`;
+}
+function copySeasonText(){
+  const el=document.getElementById('seasonTextArea');
+  el.style.position='fixed';el.style.left='0';el.style.top='0';el.select();document.execCommand('copy');
+  el.style.position='absolute';el.style.left='-9999px';toast('تم نسخ التقرير الموسمي ✓');
+}
+
+renderTasks();
+</script>
+</body>
+</html>
